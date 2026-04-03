@@ -61,7 +61,6 @@ const VideoBackground = () => {
         </div>
       </div>
       <div id="video-content">
-        <h5>DHARASHIV</h5>
         <p>City of joy</p>
       </div>
     </section>

@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../WeddingBook.css";
-import img8 from '../assets/invitel.jpg';
-import img9 from '../assets/invite2.jpg';
-import img10 from '../assets/inviter.jpg';
 
 
 const WeddingBook = () => {

@@ -42,7 +42,7 @@ const opacity = useTransform(scrollYProgress, [0, 1.5], [1, 0]);
 
 
   function calculateTimeLeft() {
-    const weddingDate = new Date("2025-11-30");
+    const weddingDate = new Date("2026-05-07");
     const now = new Date();
     const difference = weddingDate - now;
 
@@ -93,31 +93,6 @@ const handleNavClick = (sectionId) => {
   }, 350); // matches AnimatePresence transition duration
 };
 
-
-  function calculateTimeLeft() {
-    const weddingDate = new Date("2025-11-30");
-    const now = new Date();
-    const difference = weddingDate - now;
-
-    if (difference > 0) {
-      return {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  }
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  });
-
   const menuItems = [
     { name: "HOME", id: "home" },
     { name: "EVENTS", id: "events" },
@@ -128,11 +103,11 @@ const handleNavClick = (sectionId) => {
    const events = [
     {
       title: "Mehndi",
-      date: "November 28, 2025",
+      date: "May 05, 2026",
       time: "6:00 PM",
-      location: "'NATHSAGAR', College Road, Washi, Dist-Dharashiv 413 503",
-      address: "College Road Washi, Dist-Dharashiv 413 503",
-      mapQuery: "College Road Washi, Dist-Dharashiv 413 503",
+      location: "Malshiras",
+      address: "Malshiras",
+      mapQuery: "https://maps.app.goo.gl/rV333CmNNZ369JTA8?g_st=aw",
       description: "Traditional Mehndi ceremony with intricate henna designs, music, and celebrations with family and close friends.",
       icon: "Mehndi",
       color: "from-amber-500 to-orange-500",
@@ -140,11 +115,11 @@ const handleNavClick = (sectionId) => {
     },
     {
       title: "Sangeet",
-      date: "November 29, 2025",
+      date: "May 06, 2026",
       time: "7:00 PM",
-      location: "Shree Ganesh Mangal Karyalay, Bhawani Chowk, Dharashiv",
-      address: "Shree Ganesh Mangal Karyalay, Bhawani Chowk, Dharashiv",
-      mapQuery: "Shree Ganesh Mangal Karyalay, Bhawani Chowk, Dharashiv",
+      location: "Suvarna lawns Marriage Hall",
+      address: "Suvarna lawns Marriage Hall",
+      mapQuery: "Suvarna lawns Marriage Hall",
       description: "An evening of music, dance performances, and celebration where families come together for a night of entertainment.",
       icon: "Sangeet",
       color: "from-purple-500 to-pink-500",
@@ -152,11 +127,11 @@ const handleNavClick = (sectionId) => {
     },
     {
       title: "Haldi",
-      date: "November 30, 2025",
+      date: "May 06, 2026",
       time: "6:00 AM",
-      location: "Shree Ganesh Mangal Karyalay Dharashiv",
-      address: "Shree Ganesh Mangal Karyalay Dharashiv, Maharashtra 413802",
-      mapQuery: "Shree Ganesh Mangal Karyalay Dharashiv, Maharashtra 413802",
+      location: "Suvarna lawns Marriage Hall",
+      address: "Suvarna lawns Marriage Hall",
+      mapQuery: "Suvarna lawns Marriage Hall",
       description: "Traditional Haldi ceremony where turmeric paste is applied for purification and blessings before the wedding.",
       icon: "Haldi",
       color: "from-yellow-400 to-amber-400",
@@ -164,11 +139,11 @@ const handleNavClick = (sectionId) => {
     },
     {
       title: "Wedding",
-      date: "November 30, 2025",
+      date: "May 07, 2026",
       time: "12:15 PM",
-      location: "Shree Ganesh Mangal Karyalay Dharashiv",
-      address: "Shree Ganesh Mangal Karyalay Dharashiv, Maharashtra 413802",
-      mapQuery: "Shree Ganesh Mangal Karyalay Dharashiv, Maharashtra 413802",
+      location: "Suvarna lawns Marriage Hall",
+      address: "Suvarna lawns Marriage Hall",
+      mapQuery: "Suvarna lawns Marriage Hall",
       description: "Traditional Maharashtrian wedding ceremony with sacred rituals, followed by reception and celebrations.",
       icon: "Wedding",
       color: "from-red-500 to-rose-500",
@@ -254,29 +229,34 @@ const handleNavClick = (sectionId) => {
          <div className="min-h-screen bg-cream font-simple overflow-x-hidden">
         {/* Navigation - Fixed Responsive Menu */}
         <motion.nav
-          className="fixed top-0 w-full z-50 bg-cream/95 backdrop-blur-sm shadow-sm"
+          className="fixed top-0 w-full z-50 bg-cream/95 backdrop-blur-sm shadow-sm border-b border-gold/10"
           initial={{ y: -100 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.8 }}
         >
           <div className="container mx-auto px-4 py-3">
             {/* Desktop Menu - Hidden on mobile */}
-            <div className="hidden md:flex flex-wrap justify-center gap-6 md:gap-12 text-center">
-              {menuItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className="text-navy hover:text-gold transition-all duration-300 font-semibold tracking-wider text-sm uppercase"
-                >
-                  {item.name}
-                </button>
+            <div className="hidden md:flex flex-wrap justify-center gap-6 md:gap-12 text-center items-center">
+              {menuItems.map((item, index) => (
+                <React.Fragment key={item.id}>
+                  <button
+                    onClick={() => handleNavClick(item.id)}
+                    className="text-navy hover:text-gold transition-all duration-300 font-semibold tracking-[0.2em] text-[10px] md:text-xs uppercase relative group"
+                  >
+                    {item.name}
+                    <span className="absolute -bottom-1 left-1/2 w-0 h-[1px] bg-gold transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+                  </button>
+                  {index < menuItems.length - 1 && (
+                    <span className="text-gold/30 text-[10px]">•</span>
+                  )}
+                </React.Fragment>
               ))}
             </div>
 
             {/* Mobile Menu Button - Hidden on desktop */}
             <div className="flex md:hidden justify-between items-center">
               <div className="text-navy font-semibold text-lg">
-                A❤M
+                A❤S
               </div>
               <button
                 onClick={toggleMenu}
@@ -382,14 +362,38 @@ const handleNavClick = (sectionId) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
             >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 0.3 }}
+                className="mb-6"
+              >
+                
+                <div className="flex justify-center items-center mt-2">
+                  <div className="h-[1px] w-12 bg-gold/50 mx-4"></div>
+                  <div className="h-[1px] w-12 bg-gold/50 mx-4"></div>
+                </div>
+              </motion.div>
+
               <motion.h1
-                className="text-7xl md:text-9xl font-wedding mb-4 text-center"
+                className="text-7xl md:text-9xl font-wedding mb-4 text-center bg-gradient-to-b from-white via-gold/80 to-gold bg-clip-text text-transparent drop-shadow-lg"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 100, delay: 0.5 }}
               >
-                Ajinkya <span className="text-gold">&</span> Mohini
+                Aditya <span className="text-gold">&</span> Sayali
               </motion.h1>
+              <span className="text-xl md:text-2xl font-playfair tracking-[0.3em] uppercase text-gold">
+                  Save The Date
+                </span>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2, duration: 1 }}
+                className="mt-6 text-xl md:text-2xl font-light tracking-widest text-white/90 italic"
+              >
+                07th May 2026
+              </motion.div>
               
               <div className="relative flex items-center justify-center">
                 <img
@@ -408,16 +412,21 @@ const handleNavClick = (sectionId) => {
               >
                 <div className="flex justify-center ml-1 mr-1 space-x-4 md:space-x-8">
                   {Object.entries(timeLeft).map(([unit, value]) => (
-                    <div key={unit} className="text-center">
-                      <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 min-w-20">
-                        <div className="text-3xl md:text-4xl font-bold text-gold">
+                    <motion.div
+                      key={unit}
+                      className="text-center"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 min-w-[70px] md:min-w-[100px] border border-white/20 shadow-xl">
+                        <div className="text-3xl md:text-5xl font-bold text-gold drop-shadow-sm">
                           {value.toString().padStart(2, "0")}
                         </div>
-                        <div className="text-sm uppercase tracking-wider mt-2">
+                        <div className="text-[10px] md:text-xs uppercase tracking-[0.2em] mt-2 opacity-80 text-white font-semibold">
                           {unit}
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
@@ -442,7 +451,7 @@ const handleNavClick = (sectionId) => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2, duration: 1 }}
               >
-                November 30, 2025 • Darashiv, India
+                May 07, 2026 • Suvarna Lawns, 
               </motion.p>
 
               <motion.div
@@ -476,18 +485,30 @@ const handleNavClick = (sectionId) => {
         {/* Rest of your existing code remains the same */}
         <section
           id="events"
-          className="py-20 px-6 bg-gradient-to-b from-cream to-white"
+          className="py-24 px-6 bg-[#fffcf9] relative overflow-hidden"
         >
+          {/* Decorative side pattern */}
+          <div className="absolute top-0 left-0 w-32 h-full opacity-5 pointer-events-none bg-[radial-gradient(circle,gold_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+          <div className="absolute top-0 right-0 w-32 h-full opacity-5 pointer-events-none bg-[radial-gradient(circle,gold_1px,transparent_1px)] bg-[size:20px_20px]"></div>
           
-      <div className="container mx-auto max-w-6xl">
-        <motion.h2
-          className="text-5xl md:text-6xl mb-1 font-cursive text-center text-maroon mb-4"
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          Events
-        </motion.h2>
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <motion.div
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <span className="text-gold tracking-[0.4em] uppercase text-xs font-semibold mb-4 block">Celebrations</span>
+              <h2 className="text-5xl md:text-6xl font-wedding text-maroon mb-6">
+                Wedding Events
+              </h2>
+              <div className="flex justify-center items-center mb-8">
+                <div className="h-[1px] w-12 bg-gold/30 mx-3"></div>
+                <span className="text-2xl text-gold">✨</span>
+                <div className="h-[1px] w-12 bg-gold/30 mx-3"></div>
+              </div>
+            </motion.div>
 
        
 
@@ -617,14 +638,14 @@ const handleNavClick = (sectionId) => {
                   <div className="bg-gray-100 mt-12 rounded-lg p-4">
                     <div className="h-64 rounded-lg overflow-hidden relative group">
                       <iframe
-                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=Shree Ganesh Mangal Karyalay Dharashiv, Maharashtra 413802&zoom=14&maptype=roadmap`}
+                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=Suvarna Lawns Marriage Hall&zoom=14&maptype=roadmap`}
                         width="100%"
                         height="100%"
                         style={{ border: 0, borderRadius: "8px" }}
                         allowFullScreen=""
                         loading="lazy"
                         referrerPolicy="no-referrer-when-downgrade"
-                        title={`Map for ${event.title}`}
+                        title={`Map for ${events[0].title}`}
                         className="transition-transform duration-300 group-hover:scale-105"
                       ></iframe>
 
@@ -640,7 +661,7 @@ const handleNavClick = (sectionId) => {
                     <div className="flex flex-col sm:flex-row justify-between items-center mt-4 gap-3">
                       <div className="flex space-x-2">
                         <a
-                          href={`https://www.google.com/maps/dir/?api=1&destination=Shree Ganesh Mangal Karyalay Dharashiv, Maharashtra 413802`}
+                          href={`https://www.google.com/maps/dir/?api=1&destination=Suvarna Lawns Marriage Hall`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center bg-maroon text-black px-4 py-2 rounded-lg text-sm font-semibold font-sans hover:bg-maroon/90 transition-all duration-300 shadow-md"
@@ -674,7 +695,7 @@ const handleNavClick = (sectionId) => {
 
         {/* <WeddingBook/> */}
         <GallerySlider />
-        <HowWeMet/>
+        {/* <HowWeMet/> */}
         <VideoBackground />
        
         {/* Highlights Section */}
@@ -722,17 +743,41 @@ const handleNavClick = (sectionId) => {
         </section> */}
      
         {/* Footer */}
-        <footer className="bg-navy text-cream py-12 mt-0 text-center">
-          <div className="container ">
-            <motion.p
-              className="text-3xl font-cursive text-gold mb-4"
-              initial={{ y: 30, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
+        <footer className="bg-navy text-cream py-20 mt-0 relative overflow-hidden">
+          {/* Decorative background for footer */}
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
+          <div className="absolute inset-0 opacity-5 pointer-events-none">
+            <div className="absolute top-10 left-10 text-4xl">✨</div>
+            <div className="absolute bottom-10 right-10 text-4xl">✨</div>
+          </div>
+
+          <div className="container mx-auto px-4 text-center relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
             >
-              Ajinkya & Mohini
-            </motion.p>
-            <p className="opacity-75">November 30, 2025 • Darashiv, India</p>
-            <p className="mt-4 opacity-60">Made with ❤️ for our special day</p>
+              <p className="text-5xl md:text-6xl font-wedding text-gold mb-6">
+                Aditya & Sayali
+              </p>
+              <div className="flex justify-center items-center mb-8">
+                <div className="h-px w-8 bg-gold/30 mx-3"></div>
+                <span className="text-xl">🕊️</span>
+                <div className="h-px w-8 bg-gold/30 mx-3"></div>
+              </div>
+              <p className="tracking-[0.3em] uppercase text-xs md:text-sm font-semibold opacity-80 mb-2">
+                May 07, 2026
+              </p>
+              <p className="tracking-widest uppercase text-[10px] md:text-xs opacity-60">
+                Suvarna Lawns, India
+              </p>
+              <div className="mt-12 pt-8 border-t border-white/5">
+                <p className="text-xl opacity-80 uppercase tracking-[0.2em]">
+                  Made with ❤️ Harshad  
+                </p>
+              </div>
+            </motion.div>
           </div>
         </footer>
       </div>

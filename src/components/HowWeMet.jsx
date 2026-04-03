@@ -1,22 +1,32 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import img6 from '../assets/img6.jpg';
+import img6 from '../assets/img3.png';
 
 const HowWeMet = () => {
   return (
-    <section id="how we met"  className="py-20 px-6 bg-gradient-to-br bg-white">
+    <section id="how we met" className="py-24 px-6 bg-[#fdfaf6] relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold/30 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold/30 to-transparent"></div>
+      
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 50 }}
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          
-          <p className="text-3xl text-rose-700 italic max-w-2xl mx-auto">
+          <span className="text-gold tracking-[0.4em] uppercase text-xs font-semibold mb-4 block">Our Story</span>
+          <h2 className="text-5xl md:text-6xl font-wedding text-rose-800 mb-4">
             How We Met 
-          </p>
+          </h2>
+          <div className="flex justify-center items-center">
+            <div className="h-[1px] w-8 bg-gold/50 mx-2"></div>
+            <span className="text-rose-400">❤</span>
+            <div className="h-[1px] w-8 bg-gold/50 mx-2"></div>
+          </div>
         </motion.div>
 
         {/* Main Content */}
@@ -31,7 +41,7 @@ const HowWeMet = () => {
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <img
                 src={img6}
-                alt="Ajinkya and Mohini"
+                alt="Aditya and Sayali"
                 className="w-full h-[600px] object-cover transform hover:scale-105 transition-transform duration-700"
               />
               
@@ -70,7 +80,7 @@ const HowWeMet = () => {
     Some stories don't begin with grand gestures; they begin quietly — with a smile, 
     a conversation, and a feeling that something special is about to unfold.
     <span className="block mt-4 font-semibold text-rose-800">
-      That's how it was for us — Ajinkya and Mohini.
+      That's how it was for us — Aditya and Sayali.
     </span>
   </p>
 
@@ -126,7 +136,7 @@ const HowWeMet = () => {
     </div>
 
     <div className="text-center mt-6 md:mt-8 pt-4 md:pt-6 border-t border-rose-400/30 relative z-10">
-      <p className="font-cursive text-xl md:text-2xl text-rose-100">Ajinkya & Mohini</p>
+      <p className="font-cursive text-xl md:text-2xl text-rose-100">Aditya & Sayali</p>
     </div>
   </div>
 </motion.div>
