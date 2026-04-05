@@ -17,7 +17,7 @@ import wedding from "../assets/wedding1.png";
 import mehandi from "../assets/mehandi1.png";
 import sangeet from "../assets/sangeet.png";
 import WeddingBook from "./WeddingBook";
-
+import Ring from "../assets/ring1.png";
 
 function Hero() {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -113,22 +113,22 @@ const handleNavClick = (sectionId) => {
       color: "from-amber-500 to-orange-500",
       textColor: "text-amber-700"
     },
-    {
-      title: "Sangeet",
-      date: "May 06, 2026",
-      time: "7:00 PM",
-      location: "Suvarna lawns Marriage Hall",
-      address: "Suvarna lawns Marriage Hall",
-      mapQuery: "Suvarna lawns Marriage Hall",
-      description: "An evening of music, dance performances, and celebration where families come together for a night of entertainment.",
-      icon: "Sangeet",
-      color: "from-purple-500 to-pink-500",
-      textColor: "text-purple-700"
-    },
-    {
+        {
+  title: "Engagement",
+  date: "May 05, 2026",
+  time: "7:15 PM",
+  location: "Suvarna Lawns Marriage Hall",
+  address: "Suvarna Lawns Marriage Hall",
+  mapQuery: "Suvarna Lawns Marriage Hall",
+  description: "A beautiful ceremony marking the official union of two families, where rings are exchanged and blessings are shared for the journey ahead.",
+  icon: "Engagement",
+  color: "from-blue-500 to-indigo-500",
+  textColor: "text-blue-700"
+},
+     {
       title: "Haldi",
       date: "May 06, 2026",
-      time: "6:00 AM",
+      time: "8:00 PM",
       location: "Suvarna lawns Marriage Hall",
       address: "Suvarna lawns Marriage Hall",
       mapQuery: "Suvarna lawns Marriage Hall",
@@ -137,10 +137,24 @@ const handleNavClick = (sectionId) => {
       color: "from-yellow-400 to-amber-400",
       textColor: "text-yellow-700"
     },
+
+    {
+      title: "Sangeet",
+      date: "May 06, 2026",
+      time: "10:00 PM",
+      location: "Suvarna lawns Marriage Hall",
+      address: "Suvarna lawns Marriage Hall",
+      mapQuery: "Suvarna lawns Marriage Hall",
+      description: "An evening of music, dance performances, and celebration where families come together for a night of entertainment.",
+      icon: "Sangeet",
+      color: "from-purple-500 to-pink-500",
+      textColor: "text-purple-700"
+    },
+   
     {
       title: "Wedding",
       date: "May 07, 2026",
-      time: "12:15 PM",
+      time: "1:31 PM",
       location: "Suvarna lawns Marriage Hall",
       address: "Suvarna lawns Marriage Hall",
       mapQuery: "Suvarna lawns Marriage Hall",
@@ -172,7 +186,12 @@ const handleNavClick = (sectionId) => {
       <svg viewBox="0 0 100 100" className="w-16 h-16">
       <image href={wedding} width="100" height="100" background="transparent" />
     </svg>
-    )
+    ),
+    Engagement: (
+  <svg viewBox="0 0 100 100" className="w-16 h-16">
+    <image href={Ring} width="100" height="100" />
+  </svg>
+)
   };
 
   const containerVariants = {
@@ -234,7 +253,7 @@ const handleNavClick = (sectionId) => {
           animate={{ y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="container mx-auto px-4 py-3">
+          <div className="container mx-auto px-4 py-4">
             {/* Desktop Menu - Hidden on mobile */}
             <div className="hidden md:flex flex-wrap justify-center gap-6 md:gap-12 text-center items-center">
               {menuItems.map((item, index) => (
