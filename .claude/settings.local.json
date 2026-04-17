@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(ls -la /mnt/e/Desktop/projects/Ajinkya-Mohini/src/)",
+      "Bash(ls -la \"E:/Desktop/projects/Ajinkya-Mohini/src\")"
+    ]
+  }
+}

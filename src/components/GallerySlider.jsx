@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import ScrambleText from './ScrambleText';
 import img1 from '../assets/img1.png';
 import img2 from '../assets/img2.png';
 import img3 from '../assets/img3.png';
@@ -77,14 +78,25 @@ const GallerySlider = () => {
   return (
     <section id="gallery" className="py-12 md:py-20 px-4 md:px-6 bg-gradient-to-b from-white to-cream">
       <div className="container mx-auto max-w-6xl">
-        <motion.h2 
-          className="text-4xl md:text-6xl font-cursive text-center text-maroon mb-8 md:mb-16"
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
+        <motion.div
+          className="text-center mb-8 md:mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          Gallary
-        </motion.h2>
+          <span className="text-gold tracking-[0.4em] uppercase text-xs font-semibold mb-3 block">Memories</span>
+          <ScrambleText
+            text="Gallery"
+            tag="h2"
+            className="text-4xl md:text-6xl font-cursive text-center text-shimmer mb-4"
+          />
+          <div className="flex justify-center items-center">
+            <div className="h-px w-10 bg-gold/30 mx-3" />
+            <span className="text-gold/50 text-lg">✦</span>
+            <div className="h-px w-10 bg-gold/30 mx-3" />
+          </div>
+        </motion.div>
 
         {/* Main Slider Container */}
         <div 

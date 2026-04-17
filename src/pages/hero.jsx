@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform , AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, AnimatePresence } from "framer-motion";
 import bgImage from "../assets/bg.jpg";
 import FlipClock from "../components/FlipClock";
 import MapComponent from "./MapComponent";
@@ -12,6 +12,11 @@ import "@fontsource/playfair-display";
 import "@fontsource/lora";
 import VideoBackground from "../components/VideoBackground";
 import HowWeMet from "../components/HowWeMet";
+import Fireflies from "../components/Fireflies";
+import ScrollProgress from "../components/ScrollProgress";
+import Ticker from "../components/Ticker";
+import ScrambleText from "../components/ScrambleText";
+import Aurora from "../components/Aurora";
 import haldiImg from "../assets/haldhi1.png";
 import wedding from "../assets/wedding1.png";
 import mehandi from "../assets/mehandi1.png";
@@ -19,10 +24,66 @@ import sangeet from "../assets/sangeet.png";
 import WeddingBook from "./WeddingBook";
 import Ring from "../assets/ring1.png";
 
+const TiltCard = ({ children, variants }) => {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useTransform(y, [-0.5, 0.5], [10, -10]);
+  const rotateY = useTransform(x, [-0.5, 0.5], [-10, 10]);
+
+  return (
+    <motion.div
+      className="group relative"
+      variants={variants}
+      style={{ rotateX, rotateY, transformPerspective: 1000 }}
+      whileHover={{ y: -15 }}
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        x.set((e.clientX - rect.left) / rect.width - 0.5);
+        y.set((e.clientY - rect.top) / rect.height - 0.5);
+      }}
+      onMouseLeave={() => { x.set(0); y.set(0); }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const OrnamentDivider = () => (
+  <div className="flex items-center justify-center py-10 px-8 overflow-hidden">
+    <div className="h-px flex-1 bg-gradient-to-r from-transparent to-gold/35" />
+    <div className="mx-5 flex items-center gap-3">
+      <span className="text-gold/35 text-[10px] ornament-dot">✦</span>
+      <svg width="64" height="22" viewBox="0 0 64 22" fill="none">
+        <path
+          d="M0 11 C8 3, 16 3, 24 11 C32 19, 40 19, 48 11 C56 3, 60 3, 64 11"
+          stroke="#d4af37" strokeWidth="0.9" strokeOpacity="0.4"
+        />
+        <circle cx="32" cy="11" r="3" fill="#d4af37" fillOpacity="0.45" className="ornament-dot" />
+        <circle cx="16" cy="7"  r="1.5" fill="#d4af37" fillOpacity="0.25" />
+        <circle cx="48" cy="15" r="1.5" fill="#d4af37" fillOpacity="0.25" />
+      </svg>
+      <span className="text-gold/35 text-[10px] ornament-dot" style={{ animationDelay: '1.25s' }}>✦</span>
+    </div>
+    <div className="h-px flex-1 bg-gradient-to-l from-transparent to-gold/35" />
+  </div>
+);
+
 function Hero() {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const heroRef = useRef(null);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Typewriter for "Save The Date"
+  const [saveText, setSaveText] = useState('');
+  useEffect(() => {
+    const full = 'Save The Date';
+    let i = 0;
+    const iv = setInterval(() => {
+      setSaveText(full.slice(0, ++i));
+      if (i >= full.length) clearInterval(iv);
+    }, 100);
+    return () => clearInterval(iv);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -245,6 +306,7 @@ const handleNavClick = (sectionId) => {
   
   return (
     <>
+      <ScrollProgress />
          <div className="min-h-screen bg-cream font-simple overflow-x-hidden">
         {/* Navigation - Fixed Responsive Menu */}
         <motion.nav
@@ -368,12 +430,15 @@ const handleNavClick = (sectionId) => {
             <SakuraPetals />
           </div>
 
+          {/* Aurora Borealis overlay */}
+          <Aurora />
+
           {/* Main Content with Parallax */}
-          <motion.div 
-            className="text-center text-white z-20 relative"
+          <motion.div
+            className="text-center text-white z-20 relative mt-11 md:mt-0"
             style={{
-              y: textY, // Text moves faster than background
-              opacity: opacity, // Text fades out as you scroll
+              y: textY,
+              opacity: opacity,
             }}
           >
             <motion.div
@@ -395,16 +460,19 @@ const handleNavClick = (sectionId) => {
               </motion.div>
 
               <motion.h1
-                className="text-7xl md:text-9xl font-wedding mb-4 text-center bg-gradient-to-b from-white via-gold/80 to-gold bg-clip-text text-transparent drop-shadow-lg"
+                className="text-7xl md:text-9xl font-wedding mb-4 text-center hero-title-shimmer drop-shadow-lg"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", stiffness: 100, delay: 0.5 }}
               >
-                Aditya <span className="text-gold">&</span> Sayali
+                Aditya & Sayali
               </motion.h1>
-              <span className="text-xl md:text-2xl font-playfair tracking-[0.3em] uppercase text-gold">
-                  Save The Date
-                </span>
+              <span className="text-xl md:text-2xl font-playfair tracking-[0.3em] uppercase text-gold inline-flex items-center gap-[2px]">
+                {saveText}
+                {saveText.length < 13 && (
+                  <span className="inline-block w-[2px] h-5 bg-gold/80 ml-1 animate-pulse" />
+                )}
+              </span>
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -478,14 +546,7 @@ const handleNavClick = (sectionId) => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2.5, duration: 1 }}
               >
-                <motion.a
-                  href="#events"
-                  className="inline-block border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white hover:text-navy transition-all duration-300 font-semibold"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  View Events
-                </motion.a>
+               
               </motion.div>
             </motion.div>
           </motion.div>
@@ -501,15 +562,23 @@ const handleNavClick = (sectionId) => {
           </motion.div>
         </section>
 
-        {/* Rest of your existing code remains the same */}
+        {/* <Ticker /> */}
+
         <section
           id="events"
-          className="py-24 px-6 bg-[#fffcf9] relative overflow-hidden"
+          className="py-24 px-6 relative overflow-hidden"
+          style={{ background: 'linear-gradient(175deg, #f5ede0 0%, #fffcf9 30%, #fdf6ee 70%, #f5ede0 100%)' }}
         >
           {/* Decorative side pattern */}
           <div className="absolute top-0 left-0 w-32 h-full opacity-5 pointer-events-none bg-[radial-gradient(circle,gold_1px,transparent_1px)] bg-[size:20px_20px]"></div>
           <div className="absolute top-0 right-0 w-32 h-full opacity-5 pointer-events-none bg-[radial-gradient(circle,gold_1px,transparent_1px)] bg-[size:20px_20px]"></div>
-          
+          <Fireflies count={22} />
+
+          {/* Soft ambient blobs — give cards glass depth */}
+          <div className="absolute top-16 -left-10 w-96 h-96 rounded-full bg-rose-200/25 blur-[90px] pointer-events-none" />
+          <div className="absolute bottom-16 -right-10 w-[28rem] h-[28rem] rounded-full bg-amber-200/25 blur-[90px] pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-violet-100/15 blur-[80px] pointer-events-none" />
+
           <div className="container mx-auto max-w-6xl relative z-10">
             <motion.div
               className="text-center mb-16"
@@ -519,9 +588,11 @@ const handleNavClick = (sectionId) => {
               transition={{ duration: 0.8 }}
             >
               <span className="text-gold tracking-[0.4em] uppercase text-xs font-semibold mb-4 block">Celebrations</span>
-              <h2 className="text-5xl md:text-6xl font-wedding text-maroon mb-6">
-                Wedding Events
-              </h2>
+              <ScrambleText
+                text="Wedding Events"
+                tag="h2"
+                className="text-5xl md:text-6xl font-wedding mb-6 text-shimmer"
+              />
               <div className="flex justify-center items-center mb-8">
                 <div className="h-[1px] w-12 bg-gold/30 mx-3"></div>
                 <span className="text-2xl text-gold">✨</span>
@@ -532,119 +603,80 @@ const handleNavClick = (sectionId) => {
        
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
           {events.map((event, index) => (
-            <motion.div
-              key={index}
-              className="group relative"
-              variants={cardVariants}
-              whileHover={{ y: -15 }}
-            >
-              {/* Main Card */}
-              <div className="bg-white rounded-2xl shadow-xl p-6 text-center border border-gold/20 hover:shadow-2xl transition-all duration-500 h-full flex flex-col relative overflow-hidden">
-                
-                {/* Gradient Background Effect */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${event.color} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                
-                {/* Animated Icon */}
+            <TiltCard key={index} variants={cardVariants}>
+              {/* ── Premium Invitation Card ── */}
+              <div
+                className="rounded-3xl h-full flex flex-col relative overflow-hidden transition-all duration-500"
+                style={{
+                  background: 'linear-gradient(#fffdf9,#fdf6ed) padding-box, linear-gradient(145deg,#d4af37 0%,#f5d87a 40%,#c9a227 75%,#f5d87a 100%) border-box',
+                  border: '1.5px solid transparent',
+                  boxShadow: '0 6px 36px rgba(212,175,55,0.1), 0 1px 4px rgba(0,0,0,0.04)',
+                }}
+              >
+                {/* Sheen sweep on hover */}
+                <div className="sheen-overlay" />
+
+                {/* Event-color soft wash at top */}
+                <div className={`absolute top-0 left-0 right-0 h-40 bg-gradient-to-b ${event.color} opacity-[0.09] pointer-events-none`} />
+
+                {/* Corner bracket accents */}
+                <div className="absolute top-[10px] right-[10px] w-6 h-6 border-t-[1.5px] border-r-[1.5px] border-gold/40 rounded-tr-2xl pointer-events-none" />
+                <div className="absolute bottom-[10px] left-[10px] w-6 h-6 border-b-[1.5px] border-l-[1.5px] border-gold/40 rounded-bl-2xl pointer-events-none" />
+
+                {/* Icon */}
                 <motion.div
-                  className={`mb-4 ${event.textColor} relative z-10 bg-transparent`}
+                  className={`relative z-10 pt-8 pb-3 flex justify-center ${event.textColor}`}
+                  style={{ filter: 'drop-shadow(0 4px 12px rgba(212,175,55,0.28))' }}
                   variants={iconVariants}
                   whileHover="hover"
                 >
                   {EventIcons[event.icon]}
                 </motion.div>
 
-                {/* Event Title */}
-                <motion.h3
-                  className={`text-2xl font-cursive font-semibold mb-4 ${event.textColor} relative z-10`}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
+                {/* Event title */}
+                <h3 className={`text-[1.75rem] font-wedding text-center relative z-10 mb-3 px-4 leading-tight ${event.textColor}`}>
                   {event.title}
-                </motion.h3>
+                </h3>
 
-                {/* Date and Time */}
-                <div className="space-y-3 mb-4 relative z-10">
-                  <motion.div
-                    className="flex items-center justify-center space-x-2"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6 }}
-                  >
-                    <span className="text-gold text-lg">📅</span>
-                    <span className="font-semibold font-sans text-gray-700 text-sm">
-                      {event.date}
-                    </span>
-                  </motion.div>
-                  <motion.div
-                    className="flex items-center justify-center space-x-2"
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.7 }}
-                  >
-                    <span className="text-gold text-lg">⏰</span>
-                    <span className="font-semibold font-sans text-gray-700 text-sm">
-                      {event.time}
-                    </span>
-                  </motion.div>
+                {/* Gold ornamental divider */}
+                <div className="flex items-center px-5 mb-4 relative z-10">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/35 to-gold/40" />
+                  <span className="text-gold/55 text-[9px] mx-2 ornament-dot">✦</span>
+                  <div className="h-px flex-1 bg-gradient-to-l from-transparent via-gold/35 to-gold/40" />
                 </div>
 
-                {/* Location */}
-                <motion.div
-                  className="mb-4 relative z-10"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 0.8 }}
-                >
-                  <div className="flex items-center justify-center space-x-2">
-                    <span className="text-gold text-lg">📍</span>
-                    <span className="font-semibold font-sans text-gray-600 text-xs leading-tight">
-                      {event.location}
-                    </span>
+                {/* Details */}
+                <div className="px-5 space-y-[10px] relative z-10 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base shrink-0">📅</span>
+                    <span className="text-gray-600 text-[11px] font-sans">{event.date}</span>
                   </div>
-                </motion.div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-base shrink-0">⏰</span>
+                    <span className="text-gray-600 text-[11px] font-sans">{event.time}</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-base shrink-0 mt-px">📍</span>
+                    <span className="text-gray-500 text-[11px] font-sans leading-snug">{event.location}</span>
+                  </div>
+                </div>
 
                 {/* Description */}
-                <motion.p
-                  className="text-gray-600 mb-4 font-sans leading-relaxed text-sm flex-grow relative z-10"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: 0.9 }}
-                >
+                <p className="px-5 pb-6 pt-3 text-gray-400 text-[10.5px] font-sans leading-relaxed relative z-10">
                   {event.description}
-                </motion.p>
+                </p>
 
-                {/* Decorative Elements */}
-                <div className="absolute top-2 right-2 w-8 h-8 border-t-2 border-r-2 border-gold/30 rounded-tr-2xl"></div>
-                <div className="absolute bottom-2 left-2 w-8 h-8 border-b-2 border-l-2 border-gold/30 rounded-bl-2xl"></div>
-
-                {/* Hover Effect Border */}
-                <div className={`absolute inset-0 rounded-2xl border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${event.color.replace('from-', 'border-').replace(' to-', '/20')}`}></div>
+                {/* Hover gold glow */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${event.color} opacity-0 group-hover:opacity-[0.06] transition-opacity duration-500 pointer-events-none`} />
               </div>
-
-              {/* Floating Particles */}
-              <motion.div
-                className="absolute -top-2 -right-2 text-2xl opacity-0 group-hover:opacity-100"
-                animate={{
-                  y: [0, -10, 0],
-                  rotate: [0, 180, 360]
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  delay: index * 0.5
-                }}
-              >
-                ✨
-              </motion.div>
-            </motion.div>
+            </TiltCard>
           ))}
         </motion.div>
 
@@ -712,9 +744,19 @@ const handleNavClick = (sectionId) => {
 
         </section>
 
-        {/* <WeddingBook/> */}
-        <GallerySlider />
-        {/* <HowWeMet/> */}
+        <OrnamentDivider />
+
+        <div className="relative overflow-hidden">
+          <Fireflies count={14} />
+          <GallerySlider />
+        </div>
+
+        <OrnamentDivider />
+
+        {/* <HowWeMet /> */}
+
+        {/* <OrnamentDivider /> */}
+
         <VideoBackground />
        
         {/* Highlights Section */}
@@ -762,38 +804,83 @@ const handleNavClick = (sectionId) => {
         </section> */}
      
         {/* Footer */}
-        <footer className="bg-navy text-cream py-20 mt-0 relative overflow-hidden">
-          {/* Decorative background for footer */}
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
-          <div className="absolute inset-0 opacity-5 pointer-events-none">
-            <div className="absolute top-10 left-10 text-4xl">✨</div>
-            <div className="absolute bottom-10 right-10 text-4xl">✨</div>
+        <footer className="bg-navy text-cream py-24 mt-0 relative overflow-hidden">
+          {/* Top gradient border */}
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
+          {/* Ambient fireflies */}
+          <Fireflies count={10} />
+          {/* Corner decorations */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-8 left-8 text-gold/10 text-6xl select-none">❧</div>
+            <div className="absolute bottom-8 right-8 text-gold/10 text-6xl select-none rotate-180">❧</div>
+            <div className="absolute top-8 right-8 text-gold/8 text-5xl select-none">✦</div>
+            <div className="absolute bottom-8 left-8 text-gold/8 text-5xl select-none">✦</div>
           </div>
 
           <div className="container mx-auto px-4 text-center relative z-10">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
             >
-              <p className="text-5xl md:text-6xl font-wedding text-gold mb-6">
+              {/* Animated ring decoration */}
+              <motion.div
+                className="flex justify-center mb-8"
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, ease: 'easeOut' }}
+              >
+                <svg width="90" height="90" viewBox="0 0 90 90" className="footer-ring">
+                  <circle cx="45" cy="45" r="40" fill="none" stroke="#d4af37" strokeWidth="0.6" strokeOpacity="0.35" strokeDasharray="4 6"/>
+                  <circle cx="45" cy="45" r="32" fill="none" stroke="#d4af37" strokeWidth="0.9" strokeOpacity="0.25"/>
+                  <circle cx="45" cy="45" r="4" fill="#d4af37" fillOpacity="0.5"/>
+                  {[0, 90, 180, 270].map(deg => {
+                    const r = (deg * Math.PI) / 180;
+                    return (
+                      <circle key={deg}
+                        cx={45 + Math.cos(r) * 40} cy={45 + Math.sin(r) * 40}
+                        r="2" fill="#d4af37" fillOpacity="0.4"
+                      />
+                    );
+                  })}
+                </svg>
+              </motion.div>
+
+              <p className="text-5xl md:text-7xl font-wedding text-gold mb-4">
                 Aditya & Sayali
               </p>
-              <div className="flex justify-center items-center mb-8">
-                <div className="h-px w-8 bg-gold/30 mx-3"></div>
-                <span className="text-xl">🕊️</span>
-                <div className="h-px w-8 bg-gold/30 mx-3"></div>
+
+              <div className="flex justify-center items-center gap-3 mb-8">
+                <div className="h-px w-12 bg-gradient-to-r from-transparent to-gold/40" />
+                <span className="text-gold/60 text-sm">♥</span>
+                <div className="h-px w-12 bg-gradient-to-l from-transparent to-gold/40" />
               </div>
-              <p className="tracking-[0.3em] uppercase text-xs md:text-sm font-semibold opacity-80 mb-2">
-                May 07, 2026
+
+              <p className="tracking-[0.4em] uppercase text-[11px] md:text-xs font-semibold text-gold/70 mb-2">
+                07 · May · 2026
               </p>
-              <p className="tracking-widest uppercase text-[10px] md:text-xs opacity-60">
-                Suvarna Lawns, India
+              <p className="tracking-widest uppercase text-[10px] md:text-[11px] opacity-50 mb-10">
+                Suvarna Lawns Marriage Hall ·
               </p>
-              <div className="mt-12 pt-8 border-t border-white/5">
-                <p className="text-xl opacity-80 uppercase tracking-[0.2em]">
-                  Made with ❤️ Harshad  
+
+              {/* <div className="flex justify-center gap-6 mb-10">
+                {['Mehndi', 'Haldi', 'Sangeet', 'Wedding'].map((e, i) => (
+                  <motion.span
+                    key={e}
+                    className="text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-gold/40"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: i * 0.15 }}
+                  >
+                    {e}
+                  </motion.span>
+                ))}
+              </div> */}
+
+              <div className="pt-8 border-t border-white/5">
+                <p className="text-sm opacity-50 tracking-[0.2em] uppercase">
+                  Made with ❤ by Harshad
                 </p>
               </div>
             </motion.div>

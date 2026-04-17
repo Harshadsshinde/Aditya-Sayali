@@ -1,4 +1,21 @@
 @import "tailwindcss";
+
+/* ── Custom cursor — hide default on mouse devices ── */
+@media (pointer: fine) {
+  *, *::before, *::after { cursor: none !important; }
+}
+
+/* ── Ticker ───────────────────────────────────────── */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: tickerScroll 28s linear infinite;
+}
+
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap');
 
 .font-wedding {
@@ -16,4 +33,279 @@
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
+}
+
+/* ── Cursor Trail ─────────────────────────────────── */
+.cursor-trail-particle {
+  position: fixed;
+  pointer-events: none;
+  font-size: 13px;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  animation: cursorTrailFade 0.8s ease-out forwards;
+  z-index: 9999;
+  user-select: none;
+}
+
+@keyframes cursorTrailFade {
+  0%   { opacity: 0.85; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0;    transform: translate(-50%, calc(-50% - 40px)) scale(0.3); }
+}
+
+/* ── Spark Burst ──────────────────────────────────── */
+.spark-particle {
+  position: fixed;
+  pointer-events: none;
+  font-size: 11px;
+  color: #d4af37;
+  transform: translate(-50%, -50%);
+  animation: sparkOut 0.6s ease-out forwards;
+  z-index: 9999;
+  user-select: none;
+}
+
+@keyframes sparkOut {
+  0%   { opacity: 1;   transform: translate(-50%, -50%) scale(1.4); }
+  100% { opacity: 0;   transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0); }
+}
+
+/* ── Intro Screen ─────────────────────────────────── */
+.ring-draw {
+  animation: ringDraw 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.3s;
+}
+
+.ring-draw-inner {
+  animation: ringDraw 1.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.8s;
+}
+
+@keyframes ringDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+.intro-pulse {
+  animation: introPulse 2s ease-in-out infinite;
+}
+
+@keyframes introPulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+
+/* ── Fireflies ────────────────────────────────────── */
+.firefly {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f5e6a0 0%, #d4af37 55%, transparent 100%);
+  box-shadow: 0 0 8px 3px rgba(212, 175, 55, 0.45);
+  opacity: 0;
+  animation: fireflyGlow var(--ff-dur, 7s) ease-in-out infinite;
+  animation-delay: var(--ff-delay, 0s);
+}
+
+@keyframes fireflyGlow {
+  0%   { opacity: 0;   transform: translate(0, 0) scale(0.7); }
+  20%  { opacity: 0.75; }
+  50%  { opacity: 0.35; transform: translate(var(--ff-dx, 30px), var(--ff-dy, -35px)) scale(1.1); }
+  80%  { opacity: 0.65; }
+  100% { opacity: 0;   transform: translate(0, 0) scale(0.7); }
+}
+
+/* ── Hero title shimmer ───────────────────────────── */
+.hero-title-shimmer {
+  background: linear-gradient(
+    115deg,
+    #ffffff 0%,
+    #f5e6a0 20%,
+    #d4af37 38%,
+    #ffffff 52%,
+    #f5e6a0 68%,
+    #d4af37 82%,
+    #ffffff 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerMove 6s linear infinite;
+}
+
+/* ── Section heading shimmer ─────────────────────── */
+.text-shimmer {
+  background: linear-gradient(
+    115deg,
+    #8b0000 0%,
+    #c41e3a 30%,
+    #8b0000 50%,
+    #c41e3a 70%,
+    #8b0000 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerMove 5s linear infinite;
+}
+
+@keyframes shimmerMove {
+  to { background-position: 220% center; }
+}
+
+/* ── Confetti ─────────────────────────────────────── */
+.confetti-piece {
+  position: fixed;
+  top: -20px;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  animation: confettiFall var(--cf-dur, 3s) ease-in forwards;
+  animation-delay: var(--cf-delay, 0s);
+}
+
+@keyframes confettiFall {
+  0%   { opacity: 1;   transform: translateY(0)     translateX(0)              rotate(0deg)           scale(1);   }
+  20%  { opacity: 1; }
+  80%  { opacity: 0.7; }
+  100% { opacity: 0;   transform: translateY(105vh) translateX(var(--cf-dx, 0px)) rotate(var(--cf-rot, 360deg)) scale(0.4); }
+}
+
+/* ── Card sheen sweep (hover) ────────────────────── */
+.sheen-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    108deg,
+    transparent 33%,
+    rgba(255, 255, 255, 0.68) 50%,
+    transparent 67%
+  );
+  transform: translateX(-130%);
+  z-index: 30;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.group:hover .sheen-overlay {
+  transform: translateX(130%);
+  transition: transform 0.72s ease;
+}
+
+/* ── Ornament divider pulse ───────────────────────── */
+@keyframes ornamentPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.8; transform: scale(1.3); }
+}
+
+.ornament-dot {
+  animation: ornamentPulse 2.5s ease-in-out infinite;
+}
+
+/* ── Footer ambient ring ──────────────────────────── */
+@keyframes footerRingRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.footer-ring {
+  animation: footerRingRotate 18s linear infinite;
+}
+
+/* ── Aurora Borealis ──────────────────────────────── */
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  will-change: transform;
+}
+
+.aurora-pink {
+  width: 65vw;
+  height: 45vh;
+  background: radial-gradient(ellipse, rgba(255,110,199,0.75) 0%, rgba(255,77,166,0.5) 45%, transparent 70%);
+  top: -12%;
+  left: -8%;
+  animation: auroraFloat1 20s ease-in-out infinite;
+}
+
+.aurora-violet {
+  width: 70vw;
+  height: 55vh;
+  background: radial-gradient(ellipse, rgba(179,71,217,0.7) 0%, rgba(124,58,237,0.5) 50%, transparent 72%);
+  top: -22%;
+  right: -12%;
+  animation: auroraFloat2 25s ease-in-out infinite;
+  animation-delay: -8s;
+}
+
+.aurora-gold {
+  width: 55vw;
+  height: 40vh;
+  background: radial-gradient(ellipse, rgba(245,230,160,0.65) 0%, rgba(212,175,55,0.45) 50%, transparent 70%);
+  bottom: 8%;
+  left: 15%;
+  animation: auroraFloat3 18s ease-in-out infinite;
+  animation-delay: -4s;
+}
+
+.aurora-cyan {
+  width: 60vw;
+  height: 42vh;
+  background: radial-gradient(ellipse, rgba(103,232,249,0.6) 0%, rgba(6,182,212,0.4) 45%, transparent 70%);
+  bottom: -12%;
+  right: 2%;
+  animation: auroraFloat4 22s ease-in-out infinite;
+  animation-delay: -13s;
+}
+
+.aurora-rose {
+  width: 50vw;
+  height: 35vh;
+  background: radial-gradient(ellipse, rgba(254,205,211,0.65) 0%, rgba(244,63,94,0.45) 45%, transparent 70%);
+  top: 28%;
+  left: 30%;
+  animation: auroraFloat1 28s ease-in-out infinite;
+  animation-delay: -6s;
+}
+
+@keyframes auroraFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  25%       { transform: translate(5vw, -4vh) scale(1.1) rotate(5deg); }
+  50%       { transform: translate(-3vw, 6vh) scale(0.95) rotate(-3deg); }
+  75%       { transform: translate(7vw, 3vh) scale(1.06) rotate(8deg); }
+}
+
+@keyframes auroraFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  33%       { transform: translate(-6vw, 5vh) scale(1.15) rotate(-6deg); }
+  66%       { transform: translate(4vw, -7vh) scale(0.9) rotate(4deg); }
+}
+
+@keyframes auroraFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  40%       { transform: translate(8vw, -5vh) scale(1.2); }
+  70%       { transform: translate(-5vw, 4vh) scale(0.85); }
+}
+
+@keyframes auroraFloat4 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  30%       { transform: translate(-7vw, -6vh) scale(1.1) rotate(-4deg); }
+  60%       { transform: translate(5vw, 8vh) scale(0.92) rotate(6deg); }
+}
+
+/* ── Water Ripple ─────────────────────────────────── */
+.ripple-ring {
+  position: fixed;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 175, 55, 0.7);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: 9998;
+  animation: rippleExpand 0.9s cubic-bezier(0.2, 0.6, 0.4, 1) forwards;
+}
+
+@keyframes rippleExpand {
+  0%   { transform: translate(-50%, -50%) scale(0);   opacity: 0.85; }
+  60%  { opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(1);   opacity: 0; }
 }
