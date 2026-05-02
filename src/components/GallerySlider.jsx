@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import ScrambleText from './ScrambleText';
-import img1 from '../assets/img1.png';
-import img2 from '../assets/img2.png';
-import img3 from '../assets/img3.png';
-import img4 from '../assets/img4.png';
-import img5 from '../assets/img5.png';
-import img6 from '../assets/img6.png';
-// import img7 from '../assets/img7.jpg';
-// import img8 from '../assets/img8.jpg';
+import vg1 from '../assets/VG_05184.jpg.jpeg';
+import vg2 from '../assets/VG_05186.jpg.jpeg';
+import vg3 from '../assets/VG_05195.jpg.jpeg';
+import vg4 from '../assets/VG_05251.jpg.jpeg';
+import vg5 from '../assets/VG_05260.jpg.jpeg';
 
 const GallerySlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -16,14 +13,11 @@ const GallerySlider = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   const galleryImages = [
-  // { id: 1, src: img1, alt: 'Our First Meeting', caption: 'First Sparks', date: '2020' },
-  { id: 2, src: img2, alt: 'Engagement Day', caption: 'She Said Yes', date: '2021' },
-  { id: 3, src: img3, alt: 'Special Moments', caption: 'Adventures Together', date: '2022' },
-  { id: 4, src: img4, alt: 'Together Forever', caption: 'Perfect Moments', date: '2023' },
-  // { id: 5, src: img5, alt: 'Family Celebration', caption: 'With Loved Ones', date: '2023' },
-  { id: 6, src: img6, alt: 'Trip Memories', caption: 'Joyful Times', date: '2024' },
-  // { id: 7, src: img5, alt: 'Pre-Wedding Shoot', caption: 'Romantic Vibes', date: '2024' },
-  // { id: 8, src: img7, alt: 'Big Day', caption: 'Forever Begins', date: '2025' },
+  { id: 1, src: vg1, alt: 'Together', caption: 'Perfect Moments', date: '2024' },
+  { id: 2, src: vg2, alt: 'Together', caption: 'Perfect Moments', date: '2024' },
+  { id: 3, src: vg3, alt: 'Together', caption: 'Perfect Moments', date: '2024' },
+  { id: 4, src: vg4, alt: 'Together', caption: 'Perfect Moments', date: '2024' },
+  { id: 5, src: vg5, alt: 'Together', caption: 'Perfect Moments', date: '2024' },
 ];
 
 
